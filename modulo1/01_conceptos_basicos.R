@@ -39,18 +39,20 @@ names(iris) # Para ver los nombres de las variables
 head(iris, 3) # Puedes indicarle a head() el n° de observaciones ue quieres ver. Por defecto muestra las primeras 6
 tail(iris) # Con tail() puedes ver las últimas ovservaciones 
 summary(iris) # Análisis con estadígrafos básicos para variables numéricas
-glimpse(iris)
-min(iris$Sepal.Length) # seleccionar una variable con $
-max(iris$Sepal.Length)
-unique(iris$Species) # listar valores únicos
-table(iris$Species) # conteo de variables
+glimpse(iris) # Como el nombre lo dice, una vista general a los datos???
+min(iris$Sepal.Length) # seleccionar una variable (columna) con $ para dar el valor mínimo
+max(iris$Sepal.Length) # Mismo que arriba pero con el máximo
+unique(iris$Species) # listar valores únicos (valors sin repetición)
+table(iris$Species) # conteo de variables [únicas]
+
+#unique y table ayudan para ver las repeticiones
 
 dim(Iris) # cuidado con las mayúsculas! 
 
 
 # Buscar ayuda ------------------------------------------------------------
 
-?glimpse
+?glimpse #La interrogación al principio ayuda para saber qué hace la función
 example(colnames)
 vignette(all = FALSE)
 vignette(all = TRUE)
@@ -78,7 +80,7 @@ hist(iris$Sepal.Length,
 hist(iris$Sepal.Width, 
      main = "Histogram Sepal Width",
      xlab = "Width (cms)", 
-     col = "blue")
+     col = "yellow")
 
 # Usando uan de las librerías del tidyverse: dplyr
 # Fíjate en el uso del pipe %>%. Se puede leer así como "dado lo anterior, ahora haz lo siguiente"
@@ -98,13 +100,13 @@ data_frame(variable = names(iris)) %>% # Al usar data_frame() da un Warning. Cá
 # Formas de segmentar
 # Fíjate en el uso de == para indicar equivalencia.
 setosa <- iris %>% 
-  filter(Species == "setosa")
+  filter(Species == "setosa") #filtra solo los de setosa
 setosa2 <- iris[iris$Species == "setosa", ] # Es lo mismo que lo anterior
 
 
 # Cambiar nombres de variables --------------------------------------------
 
-colnames(setosa)
+colnames(setosa) #Te muestra los nombres de las columnas
 
 # FORMA 1
 colnames(setosa) <-  c("largo_sepalo", "ancho_sepalo", "largo_petalo", "ancho_petalo", "especie")
@@ -120,7 +122,8 @@ names(setosa)[3] <- "Petalo2"
 # Si bien no son tan lindos, son rápidos de generar y permiten obtener información de los datos
 plot(iris$Sepal.Length)
 plot(iris$Sepal.Length, iris$Sepal.Width)
-plot(iris$Sepal.Length, iris$Sepal.Width, col = iris$Species, pch = 19) # Puedes usar otros plot character (pch)
+plot(iris$Sepal.Length, iris$Sepal.Width, col = iris$Species, pch = 17) # Puedes usar otros plot character (pch)
+#catalogas con los colores
 
 plot(iris$Petal.Length, iris$Petal.Width,
      col = iris$Species, 
@@ -140,7 +143,9 @@ legend("bottomright",
 
 boxplot(Petal.Length ~ Species, 
         data = iris, 
-        notch = T)
+        notch = F) #notch??? cintura?
+
+??notch
 
 ## Ahora con ggplot2
 # ggplot2 aporta mucha capacidad a las visualizaciones y permite gran personalización
@@ -152,14 +157,23 @@ ggplot(iris, aes(x = Species, y = Sepal.Width)) +
 
 ggplot(iris, aes(x = Species, y = Sepal.Width)) +
   geom_boxplot(notch = T, aes(fill = Species)) +
-  scale_fill_viridis_d(name = "Especie")
+  scale_fill_viridis_d(name = "Especie") # valores por defecto
 
 ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
   geom_jitter(aes(shape = Species))
 
+?aes
+?geom_jitter
+
 ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
-  geom_violin(fill = '#a6cee3') + 
-  coord_flip()
+  geom_point(aes(shape = Species))
+
+ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
+  geom_violin(fill = '#a6cee3') 
+ggplot(iris, aes(x = Species, y = Sepal.Width
+)) + 
+  geom_violin(fill = '#a6cee3') + #mayor_densidad
+  coord_flip() # el flip
 
 # Se puede guardar en un objeto un gráfico
 p <- ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
@@ -173,7 +187,7 @@ p
 # Una alternativa es usar la interfaz de RStudio "Export" o save image as
 # Pero también podemos hacerlo con código
 
-ggsave(p, filename = "boxplot_especies.png",
+ggsave(p, filename = "modulo1_boxplot_especies.png",
        width = 20,
        height = 15,
        units = "cm")
@@ -186,3 +200,6 @@ df <- data.frame(edad, ciudad)
 
 write.csv(df, "ciudades.csv", row.names = FALSE) # Averigua qué sucede si no se usa el argumento row.names
 
+write.csv(df, "ciudades2.csv", row.names = TRUE)
+
+write.csv(df, "ciudades3.csv")
