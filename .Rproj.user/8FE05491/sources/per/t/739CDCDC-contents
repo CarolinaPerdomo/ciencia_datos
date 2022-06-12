@@ -209,6 +209,12 @@ iris %>%
 # Acá usaremos una expresión regular (regex), pero solo para que veas las posibilidades que ofrece
 # Las expresiones regulares no son tan fáciles de entender, pero abren un espacio gigante de posibilidades
 
+data(iris) 
+view(iris)
+?pivot_longer
+
+# pivot_longer() pone filas como columnas, por qué es tidy data? no sé, no entiendo la definición de tidy data
+
 iris %>% 
   pivot_longer(cols = -Species, 
                       names_to = c("part", "dimension"),
